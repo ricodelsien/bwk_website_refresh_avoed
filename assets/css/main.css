@@ -3278,3 +3278,902 @@ html[data-theme="dark"] .flyer-viewer__hint {
     display: block;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   REFRESH 2026 — Premium UI/UX Upgrade
+   Aurora · Cinematic Hero · Mobile Nav · Glass Glow · Scroll Progress
+═══════════════════════════════════════════════════════════════════════ */
+
+/* ─── 1. Scroll Progress Bar ────────────────────────────────────────── */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 500;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--bwk-ci-lime) 0%,
+    var(--bwk-royal) 45%,
+    var(--bwk-ci-magenta) 100%
+  );
+  transform-origin: left center;
+  transform: scaleX(0);
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* ─── 2. Aurora Background Orbs ────────────────────────────────────── */
+.aurora {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.aurora__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  will-change: transform;
+}
+
+.aurora__orb--1 {
+  width: min(65vw, 720px);
+  height: min(65vw, 720px);
+  top: -18%;
+  left: -8%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--bwk-royal) 18%, transparent) 0%,
+    transparent 68%
+  );
+  animation: aurora-drift-1 24s ease-in-out infinite alternate;
+}
+
+.aurora__orb--2 {
+  width: min(55vw, 620px);
+  height: min(55vw, 620px);
+  bottom: 5%;
+  right: -6%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--bwk-ci-navy) 16%, transparent) 0%,
+    transparent 68%
+  );
+  animation: aurora-drift-2 30s ease-in-out infinite alternate;
+}
+
+.aurora__orb--3 {
+  width: min(42vw, 500px);
+  height: min(42vw, 500px);
+  top: 38%;
+  left: 52%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 12%, transparent) 0%,
+    transparent 68%
+  );
+  animation: aurora-drift-3 20s ease-in-out infinite alternate;
+}
+
+html[data-theme="dark"] .aurora__orb--1 {
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--bwk-royal) 26%, transparent) 0%,
+    transparent 68%
+  );
+}
+
+html[data-theme="dark"] .aurora__orb--2 {
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--bwk-ci-steel) 22%, transparent) 0%,
+    transparent 68%
+  );
+}
+
+html[data-theme="dark"] .aurora__orb--3 {
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 18%, transparent) 0%,
+    transparent 68%
+  );
+}
+
+@keyframes aurora-drift-1 {
+  0%   { transform: translate(0,    0)    scale(1);    }
+  100% { transform: translate(8vw,  6vh)  scale(1.14); }
+}
+
+@keyframes aurora-drift-2 {
+  0%   { transform: translate(0,    0)    scale(1);    }
+  100% { transform: translate(-7vw, -9vh) scale(1.1);  }
+}
+
+@keyframes aurora-drift-3 {
+  0%   { transform: translate(0,    0)    scale(1);    }
+  100% { transform: translate(-5vw, 7vh)  scale(1.18); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora__orb { animation: none !important; }
+  .scroll-progress { transition: none; }
+}
+
+/* ─── 3. Mobile Hamburger Button ────────────────────────────────────── */
+.nav-toggle {
+  display: none;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  cursor: pointer;
+  color: #f0f2f8;
+  transition: background 0.2s, border-color 0.2s, transform 0.1s;
+  flex-shrink: 0;
+}
+
+.nav-toggle:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.32);
+}
+
+.nav-toggle:active {
+  transform: scale(0.94);
+}
+
+.nav-toggle:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.75);
+  outline-offset: 2px;
+}
+
+.nav-toggle__bar {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: currentColor;
+  border-radius: 2px;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.22s ease;
+}
+
+/* Animated X when open */
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* ─── 3b. Nav Drawer (Mobile) ───────────────────────────────────────── */
+
+/* Backdrop blur overlay */
+.nav-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 44;
+  background: rgba(6, 10, 18, 0.55);
+  backdrop-filter: blur(4px) saturate(0.8);
+  -webkit-backdrop-filter: blur(4px) saturate(0.8);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.nav-drawer-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Slide-down drawer panel */
+.nav-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 46;
+  padding-top: calc(4rem + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  padding-left: max(1.25rem, env(safe-area-inset-left, 0px));
+  padding-right: max(1.25rem, env(safe-area-inset-right, 0px));
+  background: linear-gradient(
+    170deg,
+    color-mix(in srgb, var(--bwk-ci-navy) 96%, #000) 0%,
+    color-mix(in srgb, var(--bwk-navy) 88%, #080822) 100%
+  );
+  backdrop-filter: blur(32px) saturate(1.55);
+  -webkit-backdrop-filter: blur(32px) saturate(1.55);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+    0 12px 48px rgba(0, 0, 0, 0.5);
+  transform: translateY(-110%);
+  transition: transform 0.34s cubic-bezier(0.32, 0, 0.18, 1);
+}
+
+.nav-drawer.is-open {
+  transform: translateY(0);
+}
+
+.nav-drawer .nav-main {
+  display: flex !important;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.15rem;
+}
+
+.nav-drawer .nav-main a {
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 0.65rem 1rem 0.65rem 1.1rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.82);
+  border-radius: var(--radius);
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  transition: background 0.18s, color 0.18s;
+}
+
+.nav-drawer .nav-main a:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  box-shadow: none;
+}
+
+.nav-drawer .nav-main a[aria-current="page"] {
+  color: #fff;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow:
+    inset 3px 0 0 0 var(--bwk-ci-lime),
+    inset 0 -1px 0 0 rgba(255, 255, 255, 0.06);
+  padding-left: calc(1.1rem - 3px);
+}
+
+/* Lock body scroll when drawer is open */
+body.nav-is-open {
+  overflow: hidden;
+}
+
+/* Show hamburger, hide inline nav on mobile */
+@media (max-width: 719px) {
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .site-header .nav-main {
+    display: none !important;
+  }
+
+  .site-header .header-actions {
+    gap: 0.5rem;
+  }
+
+  /* Mobile header wraps to 2 rows → drawer needs more top clearance */
+  .nav-drawer {
+    padding-top: calc(9.5rem + env(safe-area-inset-top, 0px));
+  }
+}
+
+/* ─── 4. Cinematic Hero (Desktop) ───────────────────────────────────── */
+@media (min-width: 900px) {
+  /* Make hero taller */
+  .page-home .hero-wrap__grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    min-height: min(540px, 66vh);
+  }
+
+  /* Image spans the full grid, content overlays the right column */
+  .page-home .hero-wrap__visual {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    z-index: 0;
+    min-height: 100%;
+  }
+
+  .page-home .hero-wrap__content {
+    grid-column: 2;
+    grid-row: 1;
+    z-index: 1;
+    padding: 3rem 2.5rem 3.5rem;
+    background:
+      radial-gradient(ellipse 120% 80% at 110% 0%,
+        color-mix(in srgb, var(--accent) 10%, transparent) 0%,
+        transparent 55%),
+      color-mix(in srgb, var(--bg-elevated) 70%, transparent);
+    backdrop-filter: blur(34px) saturate(1.5);
+    -webkit-backdrop-filter: blur(34px) saturate(1.5);
+    border-left: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+  }
+
+  /* Panoramic shade: dark left side, fade to glass on right */
+  .page-home .hero-wrap__visual-shade {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.08) 0%,
+        transparent 28%,
+        color-mix(in srgb, var(--bg-elevated) 42%, transparent) 55%,
+        color-mix(in srgb, var(--bg-elevated) 85%, transparent) 80%,
+        var(--bg-elevated) 100%
+      ),
+      linear-gradient(
+        180deg,
+        transparent 55%,
+        color-mix(in srgb, var(--bg-elevated) 22%, transparent) 100%
+      );
+  }
+
+  /* Hero image full height */
+  .hero-wrap__img {
+    min-height: 100%;
+    height: 100%;
+    object-position: 44% 38%;
+  }
+}
+
+html[data-theme="dark"] .page-home .hero-wrap__content {
+  background:
+    radial-gradient(ellipse 120% 80% at 110% 0%,
+      color-mix(in srgb, var(--accent) 14%, transparent) 0%,
+      transparent 55%),
+    color-mix(in srgb, var(--bg-elevated) 62%, transparent);
+}
+
+/* ─── 5. Track Card Glass Enhancements ──────────────────────────────── */
+
+/* Ken Burns on hover */
+.track-card__media img {
+  transition: transform 0.7s cubic-bezier(0.25, 0, 0.15, 1);
+  will-change: transform;
+}
+
+.track-card:hover .track-card__media img {
+  transform: scale(1.07);
+}
+
+/* Colored glow per track on hover */
+.track-card--polizei:hover {
+  box-shadow:
+    var(--shadow-hover),
+    0 0 0 1px color-mix(in srgb, var(--stripe-polizei) 28%, transparent),
+    0 0 32px -6px color-mix(in srgb, var(--stripe-polizei) 22%, transparent);
+  border-color: color-mix(in srgb, var(--stripe-polizei) 28%, var(--border));
+}
+
+.track-card--justiz:hover {
+  box-shadow:
+    var(--shadow-hover),
+    0 0 0 1px color-mix(in srgb, var(--stripe-justiz) 28%, transparent),
+    0 0 32px -6px color-mix(in srgb, var(--stripe-justiz) 20%, transparent);
+  border-color: color-mix(in srgb, var(--stripe-justiz) 28%, var(--border));
+}
+
+.track-card--verwaltung:hover {
+  box-shadow:
+    var(--shadow-hover),
+    0 0 0 1px color-mix(in srgb, var(--stripe-verwaltung) 28%, transparent),
+    0 0 32px -6px color-mix(in srgb, var(--stripe-verwaltung) 18%, transparent);
+  border-color: color-mix(in srgb, var(--stripe-verwaltung) 28%, var(--border));
+}
+
+/* Top stripe glow on hover */
+.track-card--polizei:hover .track-card__body::before {
+  box-shadow: 0 0 18px 2px color-mix(in srgb, var(--stripe-polizei) 50%, transparent);
+}
+
+.track-card--justiz:hover .track-card__body::before {
+  box-shadow: 0 0 18px 2px color-mix(in srgb, var(--stripe-justiz) 45%, transparent);
+}
+
+.track-card--verwaltung:hover .track-card__body::before {
+  box-shadow: 0 0 18px 2px color-mix(in srgb, var(--stripe-verwaltung) 40%, transparent);
+}
+
+/* Slightly stronger lift */
+.track-card:hover {
+  transform: translateY(-5px) scale(1.004);
+}
+
+/* ─── 6. Section Headings — Gradient Accent ─────────────────────────── */
+.js-motion-ok section > h2[id],
+.js-motion-ok #tracks-heading {
+  background: linear-gradient(
+    140deg,
+    var(--text-heading) 0%,
+    color-mix(in srgb, var(--accent) 55%, var(--text-heading)) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+}
+
+/* ─── 7. Footer Glass Enhancement ───────────────────────────────────── */
+.site-footer {
+  backdrop-filter: blur(22px) saturate(1.3);
+  -webkit-backdrop-filter: blur(22px) saturate(1.3);
+  border-top-color: color-mix(in srgb, var(--border) 70%, transparent);
+}
+
+html[data-theme="dark"] .site-footer {
+  background: color-mix(in srgb, var(--bg-elevated) 90%, transparent);
+}
+
+/* ─── 8. Contact QR Card Float ──────────────────────────────────────── */
+.contact-qr-card {
+  box-shadow:
+    0 4px 24px rgba(43, 43, 109, 0.14),
+    0 0 0 1px color-mix(in srgb, var(--border) 60%, transparent);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.contact-qr-card:hover {
+  box-shadow:
+    0 8px 36px rgba(43, 43, 109, 0.2),
+    0 0 0 1px color-mix(in srgb, var(--accent) 22%, var(--border));
+  transform: translateY(-2px);
+}
+
+html[data-theme="dark"] .contact-qr-card {
+  box-shadow:
+    0 4px 28px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+/* ─── 9. Philosophy Panel Enhancement ───────────────────────────────── */
+.philosophy-panel {
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 55%, transparent) inset,
+    var(--shadow);
+}
+
+html[data-theme="dark"] .philosophy-panel {
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 12%, transparent) inset,
+    var(--shadow);
+}
+
+/* ─── 10. Hero eyebrow subtle animation ─────────────────────────────── */
+.js-motion-ok .hero-eyebrow {
+  animation: eyebrow-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.js-motion-ok h1 {
+  animation: heading-in 0.75s 0.12s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.js-motion-ok .lead {
+  animation: heading-in 0.75s 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.js-motion-ok .hero-actions {
+  animation: heading-in 0.75s 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes eyebrow-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes heading-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── 11. Hover-Lift on nav links (more tactile) ────────────────────── */
+.site-header .nav-main a {
+  transition: color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+}
+
+.site-header .nav-main a:hover {
+  transform: translateY(-1px);
+}
+
+/* ─── 12. Funding panel tweak ───────────────────────────────────────── */
+.funding--rich {
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--accent) 6%, var(--surface)) 0%,
+      var(--surface) 100%);
+  border-color: color-mix(in srgb, var(--accent) 18%, var(--border));
+  box-shadow: 0 2px 16px color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+/* ─── 13. Full-Viewport Header Fix ─────────────────────────────────── */
+/*
+  html hat standardmäßig overflow-x: visible → Browsers können trotz
+  body { overflow-x: clip } einen horizontalen Scrollbereich reservieren,
+  was dazu führt, dass sticky-Elemente nicht die volle Breite füllen.
+  Clip auf html löst das, ohne position:sticky zu brechen.
+*/
+/*
+  html hat standardmäßig overflow-x: visible → Browsers können trotz
+  body { overflow-x: clip } einen horizontalen Scrollbereich reservieren,
+  was dazu führt, dass sticky-Elemente nicht die volle Breite füllen.
+  Clip auf html löst das, ohne position:sticky zu brechen.
+*/
+html {
+  overflow-x: clip;
+}
+
+.site-header,
+.news-ticker,
+.news-ticker--static {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Mobile header: prevent brand text overflow on narrow screens */
+@media (max-width: 599px) {
+  .site-header .brand-text {
+    display: none;
+  }
+  .site-header .brand__mark {
+    height: 40px;
+    width: calc(40px * 1000 / 162); /* maintain SVG aspect ratio */
+  }
+  .site-header .header-inner {
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 719px) {
+  .site-header .header-inner {
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+}
+
+/* ─── 14. Cursor Spotlight ──────────────────────────────────────────── */
+.cursor-spotlight {
+  position: fixed;
+  z-index: -1;
+  width: 560px;
+  height: 560px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--bwk-royal) 7%, transparent) 0%,
+    transparent 64%
+  );
+  pointer-events: none;
+  will-change: left, top;
+  transition: left 0.06s ease-out, top 0.06s ease-out;
+}
+
+html[data-theme="dark"] .cursor-spotlight {
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--bwk-royal) 11%, transparent) 0%,
+    transparent 64%
+  );
+}
+
+.theme-polizei .cursor-spotlight {
+  background: radial-gradient(circle,
+    color-mix(in srgb, var(--stripe-polizei) 8%, transparent) 0%,
+    transparent 64%
+  );
+}
+
+.theme-justiz .cursor-spotlight {
+  background: radial-gradient(circle,
+    color-mix(in srgb, var(--stripe-justiz) 8%, transparent) 0%,
+    transparent 64%
+  );
+}
+
+.theme-verwaltung .cursor-spotlight {
+  background: radial-gradient(circle,
+    color-mix(in srgb, var(--stripe-verwaltung) 7%, transparent) 0%,
+    transparent 64%
+  );
+}
+
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .cursor-spotlight { display: none; }
+}
+
+/* ─── 15. Track-Card Shimmer on Hover ───────────────────────────────── */
+.track-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    118deg,
+    transparent 15%,
+    rgba(255, 255, 255, 0.04) 38%,
+    rgba(255, 255, 255, 0.13) 50%,
+    rgba(255, 255, 255, 0.04) 62%,
+    transparent 80%
+  );
+  background-size: 260% 100%;
+  background-position: 200% 0;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.track-card:hover::after {
+  opacity: 1;
+  animation: card-shimmer 0.72s ease-out forwards;
+}
+
+@keyframes card-shimmer {
+  from { background-position: 220% 0; }
+  to   { background-position: -40% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track-card::after { display: none; }
+}
+
+/* ─── 16. H1 Gradient Text ──────────────────────────────────────────── */
+.js-motion-ok h1 {
+  background: linear-gradient(
+    145deg,
+    var(--text-heading) 0%,
+    color-mix(in srgb, var(--accent) 65%, var(--text-heading)) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Subpage-Themen: Akzentfarbe für H1 pro Fachbereich */
+.theme-polizei.js-motion-ok h1,
+html.js-motion-ok .theme-polizei h1 {
+  background: linear-gradient(
+    145deg,
+    var(--text-heading) 0%,
+    color-mix(in srgb, var(--stripe-polizei) 55%, var(--text-heading)) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.theme-justiz.js-motion-ok h1,
+html.js-motion-ok .theme-justiz h1 {
+  background: linear-gradient(
+    145deg,
+    var(--text-heading) 0%,
+    color-mix(in srgb, var(--stripe-justiz) 55%, var(--text-heading)) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.theme-verwaltung.js-motion-ok h1,
+html.js-motion-ok .theme-verwaltung h1 {
+  background: linear-gradient(
+    145deg,
+    var(--text-heading) 0%,
+    color-mix(in srgb, var(--stripe-verwaltung) 55%, var(--text-heading)) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ─── 17. Subpage Hero — Cinematic Banner ───────────────────────────── */
+.theme-polizei .page-hero-visual,
+.theme-justiz .page-hero-visual,
+.theme-verwaltung .page-hero-visual {
+  max-height: min(420px, 52vh);
+  min-height: 240px;
+  box-shadow: 0 6px 40px rgba(0, 0, 0, 0.14);
+}
+
+.theme-polizei .page-hero-visual img,
+.theme-justiz .page-hero-visual img,
+.theme-verwaltung .page-hero-visual img {
+  max-height: min(420px, 52vh);
+  min-height: 240px;
+}
+
+/* Dramatisches Gradient-Overlay: Akzentfarbe oben-links + Bg-Fade unten */
+.theme-polizei .page-hero-visual::after,
+.theme-justiz .page-hero-visual::after,
+.theme-verwaltung .page-hero-visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      155deg,
+      color-mix(in srgb, var(--accent) 25%, transparent) 0%,
+      transparent 44%
+    ),
+    linear-gradient(
+      to top,
+      color-mix(in srgb, var(--bg) 52%, transparent) 0%,
+      transparent 48%
+    );
+}
+
+/* ─── 18. Subpage page-intro — Glass Card ───────────────────────────── */
+.theme-polizei .page-intro,
+.theme-justiz .page-intro,
+.theme-verwaltung .page-intro {
+  padding: 1.75rem 2rem 2rem;
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(
+      ellipse 90% 55% at 0% 0%,
+      color-mix(in srgb, var(--accent) 9%, transparent) 0%,
+      transparent 58%
+    ),
+    var(--glass-surface);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(22px) saturate(1.35);
+  -webkit-backdrop-filter: blur(22px) saturate(1.35);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 52%, transparent) inset,
+    var(--shadow);
+  margin-bottom: 2rem;
+}
+
+html[data-theme="dark"] .theme-polizei .page-intro,
+html[data-theme="dark"] .theme-justiz .page-intro,
+html[data-theme="dark"] .theme-verwaltung .page-intro {
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 10%, transparent) inset,
+    0 6px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* ─── 19. Subsection h2 — Farbiger Akzentbalken links ───────────────── */
+.subsection > h2[id] {
+  position: relative;
+  padding-left: 1rem;
+}
+
+.subsection > h2[id]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.18em;
+  bottom: 0.18em;
+  width: 3px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--accent),
+    color-mix(in srgb, var(--accent) 40%, transparent)
+  );
+}
+
+/* Gradient-Text deaktivieren für kleine Subsection-Überschriften */
+.js-motion-ok .subsection > h2[id] {
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  -webkit-text-fill-color: var(--text-heading);
+  color: var(--text-heading);
+  display: block;
+}
+
+/* ─── 20. Philosophy Callout — Premium Styling ──────────────────────── */
+.philosophy-callout {
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--accent) 7%, var(--glass-surface)) 0%,
+      var(--glass-surface) 100%
+    );
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, var(--glass-border));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 48%, transparent) inset,
+    var(--shadow);
+  border-left: 3px solid var(--accent);
+}
+
+/* ─── 21. Contact Panel — Glass Card ────────────────────────────────── */
+.contact-panel {
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(
+      ellipse 80% 55% at 100% 100%,
+      color-mix(in srgb, var(--accent) 7%, transparent) 0%,
+      transparent 55%
+    ),
+    var(--glass-surface);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(18px) saturate(1.3);
+  -webkit-backdrop-filter: blur(18px) saturate(1.3);
+  padding: 1.5rem 1.5rem 1.25rem;
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 50%, transparent) inset,
+    var(--shadow);
+  margin-top: 2rem;
+}
+
+/* ─── 22. Subpage Aurora-Orbs — Farbe pro Fachbereich ──────────────── */
+.theme-polizei .aurora__orb--1 {
+  background: radial-gradient(circle,
+    color-mix(in srgb, var(--stripe-polizei) 16%, transparent) 0%,
+    transparent 68%
+  );
+}
+
+.theme-justiz .aurora__orb--1 {
+  background: radial-gradient(circle,
+    color-mix(in srgb, var(--stripe-justiz) 16%, transparent) 0%,
+    transparent 68%
+  );
+}
+
+.theme-verwaltung .aurora__orb--1 {
+  background: radial-gradient(circle,
+    color-mix(in srgb, var(--stripe-verwaltung) 13%, transparent) 0%,
+    transparent 68%
+  );
+}
+
+/* ─── 23. Back-Link Button ──────────────────────────────────────────── */
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 0.45rem 0.85rem 0.45rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-surface);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: color 0.18s, border-color 0.18s, background 0.18s, transform 0.18s;
+  margin-bottom: 1.25rem;
+}
+
+.btn-back:hover {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+  background: color-mix(in srgb, var(--accent-soft) 55%, var(--glass-surface));
+  transform: translateX(-2px);
+}
+
+/* ─── End REFRESH 2026 ──────────────────────────────────────────────── */
