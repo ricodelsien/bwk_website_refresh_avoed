@@ -158,16 +158,133 @@
     });
   }
 
+  /* Stundenplan-Fächer: eine gemeinsame „Lichtquelle“ (Maus im Viewport), pro Kachel
+     projiziert + leicht gebrochen; ein Listener auf dem Scroll-Container. */
+  function initStundenplanUnifiedLight() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!window.matchMedia("(hover: hover)").matches) return;
+
+    var container = document.querySelector(".stundenplan-scroll");
+    if (!container) return;
+
+    var maxDeg = 3.25;
+    var perspectivePx = 520;
+    var refShiftPx = 14;
+
+    function clearTile(el) {
+      el.style.transform = "";
+      el.style.removeProperty("--sp-glare-x");
+      el.style.removeProperty("--sp-glare-y");
+      el.style.removeProperty("--sp-glare-x2");
+      el.style.removeProperty("--sp-glare-y2");
+      el.style.removeProperty("--sp-rad-w");
+      el.style.removeProperty("--sp-rad-h");
+      el.style.removeProperty("--sp-rad-w2");
+      el.style.removeProperty("--sp-rad-h2");
+      el.style.removeProperty("--sp-layer-opacity");
+      el.style.removeProperty("--sp-lin-deg");
+    }
+
+    function onMove(e) {
+      var lx = e.clientX;
+      var ly = e.clientY;
+
+      container.querySelectorAll(".stundenplan-subj").forEach(function (el) {
+        el.classList.add("stundenplan-subj--tiltable");
+
+        var rect = el.getBoundingClientRect();
+        var w = rect.width;
+        var h = rect.height;
+        if (w < 2 || h < 2) return;
+
+        var mx = lx - rect.left;
+        var my = ly - rect.top;
+
+        var nx = (mx / w - 0.5) * 2;
+        var ny = (my / h - 0.5) * 2;
+        nx = Math.max(-1, Math.min(1, nx));
+        ny = Math.max(-1, Math.min(1, ny));
+        var ry = nx * maxDeg;
+        var rx = -ny * maxDeg;
+        el.style.transform =
+          "perspective(" +
+          perspectivePx +
+          "px) rotateX(" +
+          rx.toFixed(2) +
+          "deg) rotateY(" +
+          ry.toFixed(2) +
+          "deg)";
+
+        /* Primärer Glanz: gleiche Bildschirm-Lichtposition, in Kachelkanten-% */
+        var px = (mx / w) * 100;
+        var py = (my / h) * 100;
+        px = Math.max(-14, Math.min(114, px));
+        py = Math.max(-14, Math.min(114, py));
+        el.style.setProperty("--sp-glare-x", px + "%");
+        el.style.setProperty("--sp-glare-y", py + "%");
+
+        /* Sekundärer Fleck: leicht „gebrochen“ Richtung Kachelmitte */
+        var tcx = w * 0.5;
+        var tcy = h * 0.5;
+        var vx = mx - tcx;
+        var vy = my - tcy;
+        var len = Math.sqrt(vx * vx + vy * vy);
+        if (len < 0.5) len = 0.5;
+        var qx = ((mx + (vx / len) * refShiftPx) / w) * 100;
+        var qy = ((my + (vy / len) * refShiftPx) / h) * 100;
+        qx = Math.max(-10, Math.min(110, qx));
+        qy = Math.max(-10, Math.min(110, qy));
+        el.style.setProperty("--sp-glare-x2", qx + "%");
+        el.style.setProperty("--sp-glare-y2", qy + "%");
+
+        /* Intensität / Größe: Abstand der einen Quelle zur jeweiligen Kachelmitte */
+        var cxVp = rect.left + w * 0.5;
+        var cyVp = rect.top + h * 0.5;
+        var dlx = lx - cxVp;
+        var dly = ly - cyVp;
+        var dist = Math.sqrt(dlx * dlx + dly * dly);
+        var refD = Math.min(w, h) * 1.75;
+        var mag = Math.min(1, dist / refD);
+        mag = Math.max(0.12, mag);
+
+        var radW = 62 + mag * 22;
+        var radH = 52 + mag * 20;
+        var radW2 = 38 + mag * 14;
+        var radH2 = 32 + mag * 12;
+        el.style.setProperty("--sp-rad-w", radW + "%");
+        el.style.setProperty("--sp-rad-h", radH + "%");
+        el.style.setProperty("--sp-rad-w2", radW2 + "%");
+        el.style.setProperty("--sp-rad-h2", radH2 + "%");
+
+        var layerOp = 0.9 + (1 - mag) * 0.08;
+        el.style.setProperty("--sp-layer-opacity", layerOp.toFixed(3));
+
+        /* CSS linear-gradient: 0deg = nach oben; Mapping aus Vektor Mitte → Licht */
+        var linDeg = (Math.atan2(dlx, -dly) * 180) / Math.PI;
+        el.style.setProperty("--sp-lin-deg", linDeg.toFixed(1) + "deg");
+      });
+    }
+
+    function onLeave() {
+      container.querySelectorAll(".stundenplan-subj").forEach(clearTile);
+    }
+
+    container.addEventListener("mousemove", onMove, { passive: true });
+    container.addEventListener("mouseleave", onLeave);
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function () {
       initTheme();
       initFlyerLazyLoad();
       initMobileNav();
+      initStundenplanUnifiedLight();
     });
   } else {
     initTheme();
     initFlyerLazyLoad();
     initMobileNav();
+    initStundenplanUnifiedLight();
   }
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

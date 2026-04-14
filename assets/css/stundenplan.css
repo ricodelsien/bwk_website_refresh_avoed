@@ -1,0 +1,662 @@
+/* AVöD Stundenplan — Glas-Optik, BWK-Palette (an main.css gekoppelt) */
+
+.stundenplan-widget {
+  /* Referenzpalette (Screenshot / Vorgabe) — Fächer */
+  --sp-ref-geschichte: #1f4e79;
+  --sp-ref-deutsch: #ffcc66;
+  --sp-ref-teal: #00b08b;
+  --sp-ref-rechnen: #95a5b3;
+  --sp-ref-sv: #c04033;
+  --sp-radius: var(--radius-lg);
+  --sp-cell-pad: 0.65rem 0.55rem;
+  --sp-head-bg: color-mix(in srgb, var(--bwk-ci-navy) 8%, var(--glass-surface));
+  max-width: 1100px;
+  margin-inline: auto;
+  padding: clamp(1rem, 2.5vw, 1.35rem);
+  border-radius: var(--sp-radius);
+  border: 1px solid var(--glass-border);
+  background: linear-gradient(
+    155deg,
+    color-mix(in srgb, var(--surface) 72%, transparent) 0%,
+    color-mix(in srgb, var(--accent-soft) 55%, transparent) 100%
+  );
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--shadow-hover);
+}
+
+.stundenplan-widget__header {
+  margin-bottom: 1.1rem;
+}
+
+.stundenplan-widget__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.8vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-heading);
+}
+
+.stundenplan-widget__meta {
+  margin: 0.35rem 0 0;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.stundenplan-widget__meta strong {
+  color: var(--text-heading);
+  font-weight: 650;
+}
+
+.stundenplan-scroll {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  margin: 0 -0.15rem;
+  padding: 0 0.15rem 0.25rem;
+}
+
+.stundenplan-table {
+  width: 100%;
+  min-width: 720px;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-family: var(--font);
+  font-size: 0.88rem;
+}
+
+/* Erste Spalte Zeiten, Wochentage zu gleichen Anteilen */
+.stundenplan-table col.stundenplan-col-time {
+  width: 11rem;
+}
+
+.stundenplan-table col.stundenplan-col-day {
+  /* fünf gleich breite Spalten: Restbreite nach Zeitspalte */
+  width: auto;
+}
+
+.stundenplan-table thead th {
+  padding: 0.65rem 0.45rem;
+  text-align: center;
+  font-weight: 650;
+  color: var(--text-heading);
+  background: var(--sp-head-bg);
+  border: 1px solid var(--glass-border);
+  border-bottom: none;
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
+  backdrop-filter: blur(12px) saturate(1.1);
+}
+
+.stundenplan-table thead th:first-child {
+  text-align: left;
+  padding-left: 0.75rem;
+  border-radius: var(--radius) 0 0 0;
+}
+
+.stundenplan-table thead th:last-child {
+  border-radius: 0 var(--radius) 0 0;
+}
+
+.stundenplan-table tbody th {
+  vertical-align: middle;
+  text-align: left;
+  padding: 0.55rem 0.65rem 0.55rem 0.75rem;
+  font-weight: 500;
+  color: var(--text);
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+  border: 1px solid var(--glass-border);
+  border-top: none;
+}
+
+.stundenplan-table tbody tr:first-child th {
+  border-top: 1px solid var(--glass-border);
+}
+
+.stundenplan-table__time {
+  display: block;
+  font-weight: 650;
+  font-size: 0.86rem;
+  color: var(--text-heading);
+}
+
+.stundenplan-table td {
+  vertical-align: middle;
+  padding: var(--sp-cell-pad);
+  border: 1px solid var(--glass-border);
+  border-top: none;
+  border-left: none;
+  background: color-mix(in srgb, var(--bg-elevated) 40%, transparent);
+}
+
+.stundenplan-table thead th + th {
+  border-left: none;
+}
+
+.stundenplan-table tbody td:first-of-type,
+.stundenplan-table tbody th + td {
+  border-left: 1px solid var(--glass-border);
+}
+
+.stundenplan-table tbody tr:last-child th {
+  border-radius: 0 0 0 var(--radius);
+}
+
+.stundenplan-table tbody tr:last-child td:last-child {
+  border-radius: 0 0 var(--radius) 0;
+}
+
+/* Pausen: Text links in der Zeitspalte, Linie über die Wochentage */
+.stundenplan-table__pause-rule th.stundenplan-table__pause-gap-label {
+  text-align: left;
+  vertical-align: middle;
+  padding: 0.45rem 0.65rem 0.45rem 0.75rem;
+  font-weight: 500;
+  font-size: 0.76rem;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  border-top: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+  background: color-mix(in srgb, var(--bwk-royal) 5%, var(--bg-elevated)) !important;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.stundenplan-table__pause-rule td.stundenplan-table__pause-gap-line {
+  padding: 0.42rem 0.65rem;
+  vertical-align: middle;
+  border-top: 1px solid color-mix(in srgb, var(--border) 65%, transparent) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 65%, transparent) !important;
+  border-left: none !important;
+  background: color-mix(in srgb, var(--bwk-royal) 5%, var(--bg-elevated)) !important;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.stundenplan-table__pause-line {
+  display: block;
+  width: 100%;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--bwk-ci-steel) 65%, transparent) 18%,
+    color-mix(in srgb, var(--bwk-royal) 55%, transparent) 50%,
+    color-mix(in srgb, var(--bwk-ci-steel) 65%, transparent) 82%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, #fff 22%, transparent),
+    0 2px 14px color-mix(in srgb, var(--bwk-royal) 18%, transparent);
+}
+
+html[data-theme="dark"] .stundenplan-table__pause-rule th.stundenplan-table__pause-gap-label,
+html[data-theme="dark"] .stundenplan-table__pause-rule td.stundenplan-table__pause-gap-line {
+  background: color-mix(in srgb, var(--bwk-royal) 8%, var(--surface)) !important;
+}
+
+html[data-theme="dark"] .stundenplan-table__pause-line {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, #fff 10%, transparent),
+    0 2px 16px color-mix(in srgb, var(--bwk-royal) 25%, transparent);
+}
+
+/* Fächer — Glas-Karten (geschichtet) + optionales Tilt per JS */
+.stundenplan-subj {
+  --sp-tilt-perspective: 520px;
+  /* Punkt-Hotspot + Mini-Halo (JS verschiebt Position & Größe leicht mit Kipp) */
+  --sp-glare-x: 12%;
+  --sp-glare-y: 0%;
+  --sp-lin-deg: 155deg;
+  --sp-rad-w: 70%;
+  --sp-rad-h: 58%;
+  --sp-rad-w2: 46%;
+  --sp-rad-h2: 40%;
+  --sp-glare-x2: 58%;
+  --sp-glare-y2: 46%;
+  --sp-layer-opacity: 0.96;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 4.25rem;
+  height: 100%;
+  margin: -0.15rem;
+  padding: 0.65rem 0.5rem;
+  text-align: center;
+  font-weight: 650;
+  font-size: 0.88rem;
+  line-height: 1.28;
+  border-radius: calc(var(--radius) - 4px);
+  isolation: isolate;
+  transform-style: preserve-3d;
+  border: 1px solid var(--sp-subj-border, rgba(255, 255, 255, 0.38));
+  box-shadow:
+    0 4px 22px rgba(12, 28, 48, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.42) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.05) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  -webkit-backdrop-filter: blur(18px) saturate(1.38);
+  backdrop-filter: blur(18px) saturate(1.38);
+  transition:
+    transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.28s ease;
+}
+
+.stundenplan-subj::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  /* Hell, punktuell: enger Kern + kleiner Halo; kaum Flächen-Verlauf */
+  background:
+    radial-gradient(
+      ellipse var(--sp-rad-w, 70%) var(--sp-rad-h, 58%) at var(--sp-glare-x, 12%) var(--sp-glare-y, 0%),
+      rgba(255, 255, 255, 0.58) 0%,
+      rgba(255, 255, 255, 0.28) 18%,
+      rgba(255, 255, 255, 0.08) 34%,
+      transparent 52%
+    ),
+    radial-gradient(
+      ellipse var(--sp-rad-w2, 46%) var(--sp-rad-h2, 40%) at var(--sp-glare-x2, 58%) var(--sp-glare-y2, 46%),
+      rgba(255, 255, 255, 0.22) 0%,
+      rgba(255, 255, 255, 0.06) 45%,
+      transparent 62%
+    ),
+    linear-gradient(
+      var(--sp-lin-deg, 155deg),
+      rgba(255, 255, 255, 0.05) 0%,
+      transparent 38%
+    );
+  opacity: var(--sp-layer-opacity, 0.96);
+  transition: opacity 0.22s ease;
+}
+
+.stundenplan-subj--tiltable:hover {
+  box-shadow:
+    0 10px 32px rgba(12, 28, 48, 0.14),
+    0 1px 0 rgba(255, 255, 255, 0.48) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.06) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+html[data-theme="dark"] .stundenplan-subj {
+  box-shadow:
+    0 4px 26px rgba(0, 0, 0, 0.28),
+    0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.25) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+}
+
+html[data-theme="dark"] .stundenplan-subj::before {
+  background:
+    radial-gradient(
+      ellipse var(--sp-rad-w, 70%) var(--sp-rad-h, 58%) at var(--sp-glare-x, 14%) var(--sp-glare-y, 0%),
+      rgba(255, 255, 255, 0.42) 0%,
+      rgba(255, 255, 255, 0.16) 20%,
+      rgba(255, 255, 255, 0.05) 36%,
+      transparent 52%
+    ),
+    radial-gradient(
+      ellipse var(--sp-rad-w2, 46%) var(--sp-rad-h2, 40%) at var(--sp-glare-x2, 58%) var(--sp-glare-y2, 46%),
+      rgba(255, 255, 255, 0.14) 0%,
+      rgba(255, 255, 255, 0.04) 48%,
+      transparent 62%
+    ),
+    linear-gradient(
+      var(--sp-lin-deg, 155deg),
+      rgba(255, 255, 255, 0.04) 0%,
+      transparent 36%
+    );
+}
+
+html[data-theme="dark"] .stundenplan-subj--tiltable:hover {
+  box-shadow:
+    0 12px 36px rgba(0, 0, 0, 0.38),
+    0 1px 0 rgba(255, 255, 255, 0.16) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.3) inset;
+}
+
+/* Referenzfarben + leichter Glas-Verlauf (leichte Transparenz für backdrop-filter) */
+.stundenplan-subj--geschichte {
+  --sp-subj-border: color-mix(in srgb, #fff 32%, var(--sp-ref-geschichte));
+  color: #fff;
+  background: linear-gradient(
+    155deg,
+    color-mix(in srgb, var(--sp-ref-geschichte) 94%, transparent),
+    color-mix(in srgb, var(--sp-ref-geschichte) 88%, #0a1a2a)
+  );
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.stundenplan-subj--deutsch {
+  --sp-subj-border: color-mix(in srgb, #fff 55%, #c9a030);
+  color: #1a1a12;
+  background: linear-gradient(
+    155deg,
+    color-mix(in srgb, var(--sp-ref-deutsch) 96%, transparent),
+    color-mix(in srgb, var(--sp-ref-deutsch) 88%, #e8b840)
+  );
+}
+
+.stundenplan-subj--englisch,
+.stundenplan-subj--gesellschaft {
+  --sp-subj-border: color-mix(in srgb, #fff 28%, var(--sp-ref-teal));
+  color: #fff;
+  background: linear-gradient(
+    155deg,
+    color-mix(in srgb, var(--sp-ref-teal) 94%, transparent),
+    color-mix(in srgb, var(--sp-ref-teal) 85%, #006b52)
+  );
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+
+.stundenplan-subj--rechnen {
+  --sp-subj-border: color-mix(in srgb, #fff 38%, var(--sp-ref-rechnen));
+  color: #1c2228;
+  background: linear-gradient(
+    155deg,
+    color-mix(in srgb, var(--sp-ref-rechnen) 92%, transparent),
+    color-mix(in srgb, var(--sp-ref-rechnen) 84%, #6a7784)
+  );
+}
+
+.stundenplan-subj--sv {
+  --sp-subj-border: color-mix(in srgb, #fff 26%, var(--sp-ref-sv));
+  color: #fff;
+  background: linear-gradient(
+    155deg,
+    color-mix(in srgb, var(--sp-ref-sv) 94%, transparent),
+    color-mix(in srgb, var(--sp-ref-sv) 86%, #8a2820)
+  );
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Dunkelmodus */
+html[data-theme="dark"] .stundenplan-widget {
+  background: linear-gradient(
+    155deg,
+    color-mix(in srgb, var(--surface) 55%, transparent) 0%,
+    color-mix(in srgb, var(--accent-soft) 35%, transparent) 100%
+  );
+}
+
+html[data-theme="dark"] .stundenplan-table thead th {
+  --sp-head-bg: color-mix(in srgb, var(--bwk-ci-navy) 22%, var(--surface));
+}
+
+html[data-theme="dark"] .stundenplan-subj--deutsch {
+  color: #141408;
+}
+
+html[data-theme="dark"] .stundenplan-subj--rechnen {
+  color: #101418;
+}
+
+/* Einbettung: nur Inhalt */
+html.stundenplan-embed .skip-link,
+html.stundenplan-embed .site-header,
+html.stundenplan-embed .site-footer {
+  display: none !important;
+}
+
+html.stundenplan-embed body {
+  min-height: auto;
+}
+
+html.stundenplan-embed .layout {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stundenplan-widget,
+  .stundenplan-subj {
+    transition: none;
+  }
+
+  .stundenplan-subj--tiltable {
+    transform: none !important;
+  }
+}
+
+/* ——— Startseite: Klappe „Tagesablauf“ ——— */
+.stundenplan-home {
+  margin: 2.5rem 0;
+  min-width: 0;
+}
+
+.stundenplan-disclosure {
+  position: relative;
+  border-radius: var(--radius-lg);
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--glass-border));
+  overflow: hidden;
+  background: color-mix(in srgb, var(--accent) 8%, var(--glass-surface));
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 55%, transparent) inset,
+    var(--shadow);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .stundenplan-disclosure {
+    background: color-mix(in srgb, var(--accent) 6%, var(--surface));
+    border-color: color-mix(in srgb, var(--accent) 14%, var(--border));
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+.stundenplan-disclosure__summary {
+  position: relative;
+  list-style: none;
+  cursor: pointer;
+  padding: 1rem 2.75rem 1rem 1.25rem;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  color: var(--text-heading);
+}
+
+.stundenplan-disclosure__summary::-webkit-details-marker {
+  display: none;
+}
+
+.stundenplan-disclosure__summary::marker {
+  content: "";
+}
+
+.stundenplan-disclosure__summary::after {
+  content: "";
+  position: absolute;
+  right: 1.15rem;
+  top: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: -0.28rem;
+  border-right: 2px solid color-mix(in srgb, var(--text-heading) 50%, var(--border));
+  border-bottom: 2px solid color-mix(in srgb, var(--text-heading) 50%, var(--border));
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+.stundenplan-disclosure[open] > .stundenplan-disclosure__summary::after {
+  margin-top: -0.06rem;
+  transform: rotate(225deg);
+}
+
+.stundenplan-disclosure__summary:hover {
+  background: color-mix(in srgb, var(--accent-soft) 55%, transparent);
+}
+
+.stundenplan-disclosure__summary-inner {
+  display: block;
+  max-width: 62ch;
+}
+
+/* Wie .philosophy-panel h2: Akzentbalken; Text wie section > h2[id] (main.css § Gradient) */
+.stundenplan-disclosure__heading {
+  font-family: var(--font-display);
+  margin: 0 0 0.35rem;
+  font-size: 1.32rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  position: relative;
+  padding-left: 0.85rem;
+  border-left: 3px solid var(--accent);
+  color: var(--text-heading);
+  hyphens: none;
+  -webkit-hyphens: none;
+}
+
+/* Gleicher Farbverlauf wie „Selbstverständnis“ / andere Sektions-h2 (main.css .js-motion-ok section > h2[id]) */
+html.js-motion-ok .stundenplan-disclosure__heading {
+  background: linear-gradient(
+    140deg,
+    var(--text-heading) 0%,
+    color-mix(in srgb, var(--accent) 55%, var(--text-heading)) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+  max-width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js-motion-ok .stundenplan-disclosure__heading {
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    -webkit-text-fill-color: var(--text-heading);
+    color: var(--text-heading);
+  }
+}
+
+.stundenplan-disclosure__sub {
+  margin: 0;
+  padding-left: calc(0.85rem + 3px);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.stundenplan-disclosure[open] > .stundenplan-disclosure__summary {
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.stundenplan-disclosure__content {
+  min-width: 0;
+  padding: 0.35rem 0.85rem 1.1rem;
+  background: color-mix(in srgb, var(--bg-elevated) 42%, transparent);
+}
+
+.stundenplan-disclosure__content .stundenplan-widget--home {
+  max-width: none;
+  margin-inline: 0;
+  margin-bottom: 0;
+  padding: 0.5rem 0.15rem 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.stundenplan-disclosure__content .stundenplan-widget--home .stundenplan-widget__header {
+  margin-bottom: 0.75rem;
+}
+
+html[data-theme="dark"] .stundenplan-disclosure {
+  border-color: color-mix(in srgb, var(--accent) 22%, var(--glass-border));
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 12%, transparent) inset,
+    var(--shadow);
+}
+
+html[data-theme="dark"] .stundenplan-disclosure__summary:hover {
+  background: color-mix(in srgb, var(--accent-soft) 45%, transparent);
+}
+
+/* Schmale Viewports: weniger Stauchung, zuverlässiges horizontales Scrollen */
+@media (max-width: 719px) {
+  .stundenplan-widget {
+    padding-left: max(0.65rem, env(safe-area-inset-left, 0px));
+    padding-right: max(0.65rem, env(safe-area-inset-right, 0px));
+  }
+
+  /* backdrop-filter + overflow:hidden am Eltern-Block bremst oft horizontales Scrollen (WebKit) */
+  .stundenplan-disclosure {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    overflow: visible;
+  }
+
+  .stundenplan-disclosure__content {
+    padding-left: max(0.45rem, env(safe-area-inset-left, 0px));
+    padding-right: max(0.45rem, env(safe-area-inset-right, 0px));
+  }
+
+  .stundenplan-scroll {
+    margin-inline: 0;
+    padding-inline: 0 0.25rem;
+    padding-bottom: 0.65rem;
+    overflow-x: scroll;
+  }
+
+  .stundenplan-table {
+    min-width: 36rem;
+    font-size: 0.8rem;
+  }
+
+  .stundenplan-table col.stundenplan-col-time {
+    width: 6rem;
+  }
+
+  .stundenplan-table thead th,
+  .stundenplan-table tbody th,
+  .stundenplan-table td {
+    padding: 0.42rem 0.32rem;
+  }
+
+  .stundenplan-table thead th:first-child {
+    padding-left: 0.5rem;
+  }
+
+  .stundenplan-table__time {
+    font-size: 0.76rem;
+  }
+
+  .stundenplan-table__pause-rule th.stundenplan-table__pause-gap-label {
+    font-size: 0.68rem;
+    padding-left: 0.5rem;
+  }
+
+  .stundenplan-subj {
+    min-height: 3.15rem;
+    font-size: 0.72rem;
+    padding: 0.45rem 0.28rem;
+    line-height: 1.22;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stundenplan-disclosure__summary::after {
+    transition: none;
+  }
+}

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" id="theme-color-meta" content="#2b2b6d" data-color-light="#2b2b6d" data-color-dark="#0a1524">
+  <script>
+    (function () {
+      try {
+        if (/[?&]embed=1(?:&|$)/.test(location.search) || location.hash === "#embed") {
+          document.documentElement.classList.add("stundenplan-embed");
+        }
+      } catch (e) {}
+    })();
+    (function () {
+      try {
+        var k = "bwk-color-scheme";
+        var s = localStorage.getItem(k);
+        var t = s === "light" || s === "dark" ? s : "light";
+        document.documentElement.setAttribute("data-theme", t);
+        document.documentElement.style.colorScheme = t === "dark" ? "dark" : "light";
+        var m = document.getElementById("theme-color-meta");
+        if (m && m.dataset) {
+          var dc = m.dataset.colorDark || "#0a1524";
+          var lc = m.dataset.colorLight || m.getAttribute("content") || "#2b2b6d";
+          m.setAttribute("content", t === "dark" ? dc : lc);
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <title>Stundenplan | AVöD | BWK</title>
+  <meta name="description" content="Wochenstundenplan der AVöD — Übersicht der Unterrichtsblöcke.">
+  <!-- Einbetten ohne Kopf-/Fußzeile: gleiche Datei mit ?embed=1 oder #embed -->
+  <link rel="stylesheet" href="assets/css/main.css?v=20260414k">
+  <link rel="stylesheet" href="assets/css/stundenplan.css?v=20260414k">
+</head>
+<body class="page-home">
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark" aria-hidden="true"></span>
+        <span class="brand-text">
+          <span class="brand-text__line">Ausbildungsvorbereitung</span>
+          <span class="brand-text__line brand-text__line--sub">AVöD</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <nav class="nav-main" aria-label="Hauptnavigation">
+          <a href="index.html">Start</a>
+          <a href="polizei.html">Polizei</a>
+          <a href="justiz.html">Justiz</a>
+          <a href="oeffentliche_verwaltung.html">Verwaltung</a>
+        </nav>
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Darstellung wechseln" aria-pressed="false" title="Dunkelmodus">
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="layout">
+    <header class="page-intro">
+      <p class="hero-eyebrow">Organisation</p>
+      <h1>Stundenplan</h1>
+      <p class="lead">
+        Wochenübersicht der Unterrichtsblöcke im Lehrgang.
+      </p>
+    </header>
+
+    <article class="stundenplan-widget" id="stundenplan" aria-labelledby="stundenplan-heading">
+      <div class="stundenplan-widget__header">
+        <h2 id="stundenplan-heading" class="stundenplan-widget__title">Stundenplan</h2>
+        <p class="stundenplan-widget__meta"><strong>AVöD – Über den Zeitraum des Lehrgangs liegt ein großer Fokus auf Deutsch, Geschichte und Politik.</strong></p>
+      </div>
+
+      <div class="stundenplan-scroll">
+        <table class="stundenplan-table" role="grid" aria-label="Wochenstundenplan">
+          <colgroup>
+            <col class="stundenplan-col-time">
+            <col class="stundenplan-col-day" span="5">
+          </colgroup>
+          <thead>
+            <tr>
+              <th scope="col">Unterrichtsstunden</th>
+              <th scope="col">Montag</th>
+              <th scope="col">Dienstag</th>
+              <th scope="col">Mittwoch</th>
+              <th scope="col">Donnerstag</th>
+              <th scope="col">Freitag</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">
+                <span class="stundenplan-table__time">08:00 – 09:30 Uhr</span>
+              </th>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--geschichte">Geschichte / Politik</div>
+              </td>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--deutsch">Deutsch</div>
+              </td>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--englisch">Englisch</div>
+              </td>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--deutsch">Deutsch</div>
+              </td>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--deutsch">Deutsch</div>
+              </td>
+            </tr>
+            <tr class="stundenplan-table__pause-rule">
+              <th scope="row" class="stundenplan-table__pause-gap-label">Pause 20 min</th>
+              <td class="stundenplan-table__pause-gap-line" colspan="5">
+                <span class="stundenplan-table__pause-line"></span>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">
+                <span class="stundenplan-table__time">09:50 – 11:20 Uhr</span>
+              </th>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--geschichte">Geschichte / Politik</div>
+              </td>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--deutsch">Deutsch</div>
+              </td>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--gesellschaft">Gesellschaftskunde</div>
+              </td>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--deutsch">Deutsch</div>
+              </td>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--deutsch">Deutsch</div>
+              </td>
+            </tr>
+            <tr class="stundenplan-table__pause-rule">
+              <th scope="row" class="stundenplan-table__pause-gap-label">Pause 40 min</th>
+              <td class="stundenplan-table__pause-gap-line" colspan="5">
+                <span class="stundenplan-table__pause-line"></span>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">
+                <span class="stundenplan-table__time">12:00 – 13:30 Uhr</span>
+              </th>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--englisch">Englisch</div>
+              </td>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--rechnen">Rechnen / Logik</div>
+              </td>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--geschichte">Geschichte / Politik</div>
+              </td>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--rechnen">Rechnen / Logik</div>
+              </td>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--deutsch">Kommunikation</div>
+              </td>
+            </tr>
+            <tr class="stundenplan-table__pause-rule">
+              <th scope="row" class="stundenplan-table__pause-gap-label">Pause 15 min</th>
+              <td class="stundenplan-table__pause-gap-line" colspan="5">
+                <span class="stundenplan-table__pause-line"></span>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">
+                <span class="stundenplan-table__time">13:45 – 15:15 Uhr</span>
+              </th>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--gesellschaft">Gesellschaftskunde</div>
+              </td>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--geschichte">Geschichte / Politik</div>
+              </td>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--geschichte">Geschichte / Politik</div>
+              </td>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--sv">SV / Recht</div>
+              </td>
+              <td>
+                <div class="stundenplan-subj stundenplan-subj--geschichte">Geschichte / Politik</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <p style="margin-top: 2rem;"><a class="btn btn-ghost" href="index.html">← Zur Übersicht</a></p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-block">
+        <h3>BWK | AVöD — Kontakt</h3>
+        <p>
+          <a href="tel:+493061792960">030 617 92 960</a><br>
+          <a href="mailto:avoed@bwk-berlin.de">avoed@bwk-berlin.de</a><br>
+          Cuvrystraße 34 · 10997 Berlin
+        </p>
+      </div>
+      <div class="footer-block">
+        <h3>Hauptgeschäftstelle</h3>
+        <address>
+          BWK BildungsWerk in Kreuzberg GmbH<br>
+          Cuvrystr. 34 // 10997 Berlin-Kreuzberg<br>
+          Telefon: <a href="tel:+49306179290">030 61 79 29 - 0</a><br>
+          E-Mail: <a href="mailto:info@bwk-berlin.de">info@bwk-berlin.de</a>
+        </address>
+      </div>
+      <div class="footer-block footer-block--social">
+        <h3>Social Media</h3>
+        <ul class="social-list">
+          <li>
+            <a href="https://www.instagram.com/bildungswerk_kreuzberg/" rel="noopener noreferrer" target="_blank">
+              <svg class="icon icon--social" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              Instagram
+            </a>
+          </li>
+          <li>
+            <a href="https://www.facebook.com/bwkberlin/" rel="noopener noreferrer" target="_blank">
+              <svg class="icon icon--social" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              Facebook
+            </a>
+          </li>
+          <li>
+            <a href="https://www.youtube.com/channel/UCgn_WpKFCG9Pvdm_AuhsUZw" rel="noopener noreferrer" target="_blank">
+              <svg class="icon icon--social" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+              YouTube
+            </a>
+          </li>
+          <li>
+            <a href="https://twitter.com/BWK_Kreuzberg" rel="noopener noreferrer" target="_blank" aria-label="X (Twitter)">
+              <svg class="icon icon--social" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              X
+            </a>
+          </li>
+          <li>
+            <a href="https://www.tiktok.com/@bildungswerkkreuzberg" rel="noopener noreferrer" target="_blank">
+              <svg class="icon icon--social" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 1 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+              TikTok
+            </a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/company/bwk-bildungswerk-in-kreuzberg-gmbh" rel="noopener noreferrer" target="_blank">
+              <svg class="icon icon--social" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              LinkedIn
+            </a>
+          </li>
+        </ul>
+      </div>
+      <p class="footer-note">
+        <a href="https://bwk-berlin.de/">bwk-berlin.de</a>
+        ·
+        <a href="impressum.html">Impressum</a>
+        ·
+        <a href="https://bwk-berlin.de/datenschutz.html">Datenschutz</a>
+      </p>
+    </div>
+  </footer>
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>

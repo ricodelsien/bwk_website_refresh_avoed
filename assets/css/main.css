@@ -199,6 +199,7 @@ html[data-theme="dark"] {
 /* Anker: Zielbereiche nicht unter der festen Kopfzeile verstecken */
 #main,
 #philosophie,
+#tagesablauf,
 #tracks-heading,
 #contact-heading {
   scroll-margin-top: 5.75rem;
@@ -208,6 +209,7 @@ html[data-theme="dark"] {
   /* Höhere Kopfzeile bei umgebrochener Navigation */
   #main,
   #philosophie,
+  #tagesablauf,
   #tracks-heading,
   #contact-heading {
     scroll-margin-top: 7.25rem;
@@ -217,7 +219,8 @@ html[data-theme="dark"] {
 @supports (text-wrap: balance) {
   h1,
   .section > h2[id],
-  #tracks-heading {
+  #tracks-heading,
+  #tagesablauf-heading {
     text-wrap: balance;
   }
 }
