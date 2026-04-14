@@ -187,6 +187,9 @@ html[data-theme="dark"] .theme-justiz {
 html {
   scroll-behavior: smooth;
   color-scheme: light;
+  /* Kein willkürliches Aufzoomen von Fließtext auf iOS bei Landscape */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 html[data-theme="dark"] {
@@ -199,6 +202,16 @@ html[data-theme="dark"] {
 #tracks-heading,
 #contact-heading {
   scroll-margin-top: 5.75rem;
+}
+
+@media (max-width: 719px) {
+  /* Höhere Kopfzeile bei umgebrochener Navigation */
+  #main,
+  #philosophie,
+  #tracks-heading,
+  #contact-heading {
+    scroll-margin-top: 7.25rem;
+  }
 }
 
 @supports (text-wrap: balance) {
@@ -246,6 +259,7 @@ body {
   background-image: var(--page-gradient);
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: color-mix(in srgb, var(--accent) 18%, transparent);
+  overflow-x: clip;
 }
 
 /* Leichtes Rastermuster, zu den Rändern hin ausblendend */
@@ -323,8 +337,8 @@ a:hover {
 }
 
 .skip-link:focus {
-  left: 1rem;
-  top: 1rem;
+  left: max(1rem, env(safe-area-inset-left, 0px));
+  top: max(1rem, env(safe-area-inset-top, 0px));
 }
 
 .site-header {
@@ -360,7 +374,10 @@ html[data-theme="dark"] .site-footer {
   z-index: 1;
   max-width: 1120px;
   margin: 0 auto;
-  padding: 0.85rem max(1.25rem, env(safe-area-inset-right, 0px)) 0.85rem max(1.25rem, env(safe-area-inset-left, 0px));
+  padding-top: max(0.85rem, env(safe-area-inset-top, 0px));
+  padding-right: max(1.25rem, env(safe-area-inset-right, 0px));
+  padding-bottom: 0.85rem;
+  padding-left: max(1.25rem, env(safe-area-inset-left, 0px));
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -825,6 +842,38 @@ html[data-theme="dark"] .contact-qr-card__apply {
 
   .apply-cta-btn {
     min-height: 44px;
+  }
+
+  .theme-toggle {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .theme-toggle svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.35rem;
+  }
+
+  .hero-actions .link-arrow {
+    box-sizing: border-box;
+    min-height: 44px;
+    padding: 0.5rem 0;
+    justify-content: flex-start;
+  }
+
+  .contact-strip__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.2rem 0;
   }
 }
 
@@ -1321,7 +1370,7 @@ h1 {
 
 .grid-tracks {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
   gap: 1.25rem;
   margin: 2rem 0;
 }
@@ -2019,7 +2068,7 @@ html[data-theme="dark"] .track-card--verwaltung .btn-primary {
   position: relative;
   z-index: 30;
   margin-top: 4rem;
-  padding: 2rem max(1.25rem, env(safe-area-inset-right, 0px)) 2rem max(1.25rem, env(safe-area-inset-left, 0px));
+  padding: 2rem max(1.25rem, env(safe-area-inset-right, 0px)) calc(2rem + env(safe-area-inset-bottom, 0px)) max(1.25rem, env(safe-area-inset-left, 0px));
   border-top: 1px solid var(--border);
   background: rgba(250, 250, 248, 0.96);
   backdrop-filter: blur(8px);
@@ -2990,6 +3039,18 @@ html[data-theme="dark"] .contact-qr-card__foot {
   }
 }
 
+@media (max-width: 599px) {
+  .page-home .hero-wrap {
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
+
+  .page-hero-visual {
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
+}
+
 .section h2,
 #tracks-heading {
   font-family: var(--font-display);
@@ -3153,6 +3214,11 @@ html[data-theme="dark"] .flyer-viewer__hint {
 }
 
 @media (max-width: 599px) {
+  .flyer-viewer-details__summary {
+    min-height: 44px;
+    align-items: center;
+  }
+
   .flyer-viewer-details__meta--desktop {
     display: none;
   }
